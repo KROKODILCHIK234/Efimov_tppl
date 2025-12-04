@@ -1,4 +1,3 @@
--- Test suite for Pascal interpreter
 local interpreter = require('interpreter')
 
 describe("Pascal Interpreter", function()
