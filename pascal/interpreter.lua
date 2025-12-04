@@ -1,6 +1,4 @@
--- Pascal Interpreter in Lua
--- Token types
-local INTEGER = 'INTEGER'
+-local INTEGER = 'INTEGER'
 local PLUS = 'PLUS'
 local MINUS = 'MINUS'
 local MUL = 'MUL'
@@ -15,7 +13,6 @@ local SEMI = 'SEMI'
 local DOT = 'DOT'
 local EOF = 'EOF'
 
--- Token class
 local Token = {}
 Token.__index = Token
 
@@ -25,13 +22,11 @@ function Token:new(type, value)
     return token
 end
 
--- Reserved keywords
 local RESERVED_KEYWORDS = {
     BEGIN = Token:new(BEGIN, 'BEGIN'),
     END = Token:new(END, 'END')
 }
 
--- Lexer class
 local Lexer = {}
 Lexer.__index = Lexer
 
@@ -142,7 +137,6 @@ function Lexer:get_next_token()
     return Token:new(EOF, nil)
 end
 
--- AST Node classes
 local BinOp = {}
 BinOp.__index = BinOp
 
@@ -206,7 +200,6 @@ function NoOp:new()
     return node
 end
 
--- Parser class
 local Parser = {}
 Parser.__index = Parser
 
@@ -357,7 +350,6 @@ function Parser:parse()
     return node
 end
 
--- Interpreter class
 local Interpreter = {}
 Interpreter.__index = Interpreter
 
@@ -437,7 +429,6 @@ function Interpreter:visit_Var(node)
 end
 
 function Interpreter:visit_NoOp(node)
-    -- Do nothing
 end
 
 function Interpreter:interpret()
@@ -448,7 +439,7 @@ function Interpreter:interpret()
     return self.GLOBAL_SCOPE
 end
 
--- Export function for use in other modules
+
 local function interpret(text)
     local lexer = Lexer:new(text)
     local parser = Parser:new(lexer)
@@ -456,7 +447,6 @@ local function interpret(text)
     return interpreter:interpret()
 end
 
--- Return module
 return {
     interpret = interpret,
     Lexer = Lexer,
