@@ -355,13 +355,9 @@ class Interpreter(NodeVisitor):
 
 def main():
     if len(sys.argv) > 1:
-        # Read from file if argument provided
         with open(sys.argv[1], 'r') as f:
             text = f.read()
     else:
-        # Interactive mode or just read stdin
-        # For this task, let's assume we might want to run a string directly for testing
-        # But standard usage is probably importing the class or running a file.
         print("Usage: python interpreter.py <filename>")
         return
 
