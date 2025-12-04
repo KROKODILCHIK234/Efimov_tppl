@@ -1,10 +1,8 @@
--- Manual test script for Pascal interpreter
 local interpreter = require('interpreter')
 
 print("Testing Pascal Interpreter in Lua")
 print("==================================\n")
 
--- Test 1: Empty program
 print("Test 1: Empty program")
 local text1 = [[
 BEGIN
@@ -14,7 +12,7 @@ local result1 = interpreter.interpret(text1)
 print("Result:", next(result1) == nil and "{}" or "ERROR")
 print()
 
--- Test 2: Complex expressions
+
 print("Test 2: Complex expressions")
 local text2 = [[
 BEGIN
@@ -27,7 +25,7 @@ print("x =", result2.X, "(expected: 17)")
 print("y =", result2.Y, "(expected: 11)")
 print()
 
--- Test 3: Nested blocks
+
 print("Test 3: Nested blocks")
 local text3 = [[
 BEGIN
@@ -49,7 +47,7 @@ print("c =", result3.C, "(expected: -15)")
 print("x =", result3.X, "(expected: 11)")
 print()
 
--- Test 4: Arithmetic precedence
+
 print("Test 4: Arithmetic precedence")
 local text4 = [[
 BEGIN
