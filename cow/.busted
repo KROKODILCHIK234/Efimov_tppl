@@ -1,0 +1,4 @@
+return {
+    coverage = true,
+    verbose = true
+}
