@@ -1,4 +1,4 @@
--local INTEGER = 'INTEGER'
+local INTEGER = 'INTEGER'
 local PLUS = 'PLUS'
 local MINUS = 'MINUS'
 local MUL = 'MUL'
