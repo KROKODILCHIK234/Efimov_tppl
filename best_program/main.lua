@@ -1,8 +1,6 @@
--- Настройка путей для поиска модулей
--- Позволяет запускать программу как из корневой директории, так и из best_program
 local script_path = arg[0] or ""
 local script_dir = script_path:match("(.*/)") or "./"
--- Добавляем текущую директорию скрипта и родительскую директорию в пути поиска
+
 package.path = script_dir .. "?.lua;" .. script_dir .. "?/?.lua;" .. 
                script_dir .. "../?.lua;" .. script_dir .. "../?/?.lua;" .. 
                package.path
@@ -10,7 +8,6 @@ package.path = script_dir .. "?.lua;" .. script_dir .. "?/?.lua;" ..
 local socket = require("socket")
 io.stdout:setvbuf('no')
 
--- Загрузка модулей (пробуем с префиксом best_program, затем без префикса)
 local Connection, protocol
 local ok1, conn = pcall(require, "best_program.connection")
 local ok2, prot = pcall(require, "best_program.protocol")
@@ -18,12 +15,11 @@ if ok1 and ok2 then
     Connection = conn
     protocol = prot
 else
-    -- Если не получилось, пробуем без префикса (для запуска из best_program)
+
     Connection = require("connection")
     protocol = require("protocol")
 end
 
--- Определяем путь к выходному файлу (в той же директории, где находится скрипт)
 local OUTPUT_FILE = script_dir .. "data.txt"
 io.stdout:setvbuf('no')
 
@@ -85,14 +81,12 @@ print("Starting data collection...")
 print("Press Ctrl+C to stop...")
 local running = true
 
--- Обработка сигнала для корректного завершения
--- Используем защищенный вызов для обработки прерываний
+
 local function cleanup()
     print("\nShutting down...")
     running = false
 end
 
--- Попытка установить обработчик сигнала (опционально, если доступен posix)
 local ok, posix = pcall(require, "posix")
 if ok and posix.signal then
     posix.signal(posix.SIGINT, cleanup)
@@ -122,7 +116,6 @@ while running do
     end
 end
 
--- Корректное закрытие соединений
 print("Closing connections...")
 for _, c in ipairs(connections) do
     c:disconnect()
