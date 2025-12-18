@@ -8,17 +8,8 @@ package.path = script_dir .. "?.lua;" .. script_dir .. "?/?.lua;" ..
 local socket = require("socket")
 io.stdout:setvbuf('no')
 
-local Connection, protocol
-local ok1, conn = pcall(require, "best_program.connection")
-local ok2, prot = pcall(require, "best_program.protocol")
-if ok1 and ok2 then
-    Connection = conn
-    protocol = prot
-else
-
-    Connection = require("connection")
-    protocol = require("protocol")
-end
+local Connection = require("best_program.connection")
+local protocol = require("best_program.protocol")
 
 local OUTPUT_FILE = script_dir .. "data.txt"
 io.stdout:setvbuf('no')

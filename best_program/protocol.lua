@@ -1,5 +1,8 @@
 local protocol = {}
 
+protocol.PACKET_SIZE_1 = 15
+protocol.PACKET_SIZE_2 = 21
+
 local function byte(data, i)
     return string.byte(data, i) or 0
 end

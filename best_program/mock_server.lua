@@ -1,5 +1,13 @@
 local socket = require("socket")
 
+local script_path = arg[0] or ""
+local script_dir = script_path:match("(.*/)") or "./"
+package.path = script_dir .. "?.lua;" .. script_dir .. "?/?.lua;" .. 
+               script_dir .. "../?.lua;" .. script_dir .. "../?/?.lua;" .. 
+               package.path
+
+local protocol = require("best_program.protocol")
+
 local host = "127.0.0.1"
 local port1 = 5123
 local port2 = 5124
@@ -46,18 +54,12 @@ local function handle_client(client, server_port)
 
                 local ts = "\000\000\000\232\212\165\016\000"
                 if server_port == 5123 then
-
                     local payload = ts .. "\063\192\000\000" .. "\000\100"
-                    
-                    local sum = 0
-                    for i=1, #payload do sum = (sum + string.byte(payload, i)) % 256 end
+                    local sum = protocol.checksum(payload)
                     response = payload .. string.char(sum)
                 else
-
                     local payload = ts .. "\000\000\000\001" .. "\000\000\000\002" .. "\000\000\000\003"
-
-                    local sum = 0
-                    for i=1, #payload do sum = (sum + string.byte(payload, i)) % 256 end
+                    local sum = protocol.checksum(payload)
                     response = payload .. string.char(sum)
                 end
                 

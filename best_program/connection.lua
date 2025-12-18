@@ -1,4 +1,5 @@
 local socket = require("socket")
+local protocol = require("best_program.protocol")
 
 local Connection = {}
 Connection.__index = Connection
@@ -16,7 +17,7 @@ function Connection.new(host, port, parser_type, on_data_callback)
     self.last_activity = 0
     self.reconnect_timer = 0
     
-    self.expected_size = (parser_type == 1) and 15 or 21
+    self.expected_size = (parser_type == 1) and protocol.PACKET_SIZE_1 or protocol.PACKET_SIZE_2
     
     return self
 end
