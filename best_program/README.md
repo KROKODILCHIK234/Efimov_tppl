@@ -67,6 +67,7 @@ best_program/
 ├── protocol.lua      # Модуль для парсинга протокола данных
 ├── mock_server.lua   # Тестовый сервер для локального тестирования
 ├── test_protocol.lua # Тесты для модуля protocol
+├── test_runner.lua   # Скрипт для запуска тестов без busted
 └── README.md         # Этот файл
 ```
 
@@ -82,11 +83,17 @@ best_program/
 ## Тестирование
 
 ### Запуск тестов протокола:
-Для запуска тестов требуется установленный busted:
+
+Если установлен `busted`:
 ```bash
-luarocks install busted
 cd best_program
 busted test_protocol.lua
+```
+
+Если `busted` не установлен (используя встроенный раннер):
+```bash
+cd best_program
+lua test_runner.lua
 ```
 
 ### Локальное тестирование с mock-сервером:
