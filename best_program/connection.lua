@@ -59,18 +59,29 @@ function Connection:update()
         return
     end
     
+    -- Check for timeouts
+    local timeout = 5 -- 5 seconds timeout
+    local delta = os.time() - self.last_activity
+    if delta > timeout then
+        print(string.format("Timeout on port %d (State: %s). Reconnecting...", self.port, self.state))
+        self:disconnect()
+        return
+    end
+    
     if self.state == "CONNECTING" then
         local readable, writable = socket.select(nil, {self.sock}, 0)
         if writable[self.sock] then
             print("Connected to " .. self.port)
             self.state = "HANDSHAKE"
+            self.last_activity = os.time()
             self:send("isu_pt")
         end
     end
     
     if self.state == "HANDSHAKE" then
         local chunk, err, partial = self.sock:receive("*a")
-        if chunk or (err == "timeout" and partial and #partial > 0) then
+        if chunk or (partial and #partial > 0) then
+             self.last_activity = os.time()
              local data = chunk or partial
              self.buffer = self.buffer .. data
              if string.find(self.buffer, "granted") then
@@ -89,6 +100,7 @@ function Connection:update()
         if not chunk then
             if err == "timeout" then
                 if partial and #partial > 0 then
+                    self.last_activity = os.time()
                     self.buffer = self.buffer .. partial
                 end
             elseif err == "closed" then
@@ -101,6 +113,7 @@ function Connection:update()
                 return
             end
         else
+            self.last_activity = os.time()
             self.buffer = self.buffer .. chunk
         end
         
